@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Scientific Calculator | BorrowBox</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Navigation Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        BorrowBox
+        <span class="brand-badge">USC Prototype</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Browse</a></li>
+          <li><a href="post.html" class="nav-link nav-btn">+ Post an Item</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content: Item Details -->
+  <main class="main-content">
+    <div class="container details-container">
+
+      <!-- Back Navigation Link -->
+      <a href="index.html" class="back-link">
+        &larr; Back to Listings
+      </a>
+
+      <!-- Prototype Request Feedback Banner (hidden initially) -->
+      <div id="requestSuccessAlert" class="alert alert-success" style="display: none;">
+        <div>
+          <strong>Borrow Request Sent!</strong>
+          <p>Your request has been logged for this prototype demonstration. The lender (Student) has been notified at student@example.com.</p>
+        </div>
+      </div>
+
+      <!-- Detail Card -->
+      <article class="detail-card">
+
+        <!-- Header / Badges -->
+        <div class="detail-header">
+          <div class="detail-top-badges">
+            <span class="category-badge">School Supplies</span>
+            <span class="status-badge status-available">&bull; Available</span>
+          </div>
+          <h1 class="detail-title">Scientific Calculator</h1>
+        </div>
+
+        <!-- Metadata Summary Grid -->
+        <div class="detail-meta-grid">
+          <div class="detail-meta-item">
+            <div class="meta-label">Category</div>
+            <div class="meta-value">School Supplies</div>
+          </div>
+          <div class="detail-meta-item">
+            <div class="meta-label">Status</div>
+            <div class="meta-value" style="color: var(--color-success);">Available</div>
+          </div>
+          <div class="detail-meta-item">
+            <div class="meta-label">Condition</div>
+            <div class="meta-value">Good</div>
+          </div>
+          <div class="detail-meta-item">
+            <div class="meta-label">Available Until</div>
+            <div class="meta-value">4:30 PM</div>
+          </div>
+          <div class="detail-meta-item" style="grid-column: 1 / -1;">
+            <div class="meta-label">Pickup Location</div>
+            <div class="meta-value">Talamban Campus (USC-TC)</div>
+          </div>
+        </div>
+
+        <!-- Description Section -->
+        <h2 class="detail-section-title">Item Description</h2>
+        <p class="detail-description">
+          Casio scientific calculator available for short-term borrowing. Please return it in the same condition.
+        </p>
+
+        <!-- Lender Contact Box -->
+        <div class="lender-box">
+          <div class="lender-row">
+            <span class="lender-label">Lender</span>
+            <span class="lender-value">Student</span>
+          </div>
+          <div class="lender-row">
+            <span class="lender-label">Contact</span>
+            <span class="lender-value">student@example.com</span>
+          </div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="detail-actions">
+          <button type="button" id="borrowBtn" class="btn btn-primary">Request to Borrow</button>
+          <a href="index.html" class="btn btn-secondary">Back to Listings</a>
+        </div>
+
+      </article>
+
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p class="footer-group-info">BorrowBox &bull; Integrated Programming Final Project (Group 2)</p>
+      <p>University of San Carlos &bull; Department of Computer Science</p>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post an Item | BorrowBox</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Navigation Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        BorrowBox
+        <span class="brand-badge">USC Prototype</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link">Browse</a></li>
+          <li><a href="post.html" class="nav-link active nav-btn">+ Post an Item</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content: Post an Item Form -->
+  <main class="main-content">
+    <div class="container form-page-container">
+
+      <div class="page-header-block">
+        <h1 class="page-title">Post an Item</h1>
+        <p class="page-subtitle">
+          Have something another student might need? Let them know it's available to borrow.
+        </p>
+      </div>
+
+      <!-- Prototype Feedback Banner (hidden initially) -->
+      <div id="postSuccessAlert" class="alert alert-success" style="display: none;">
+        <div>
+          <strong>Listing created (Prototype Mode)!</strong>
+          <p>Your item details have been validated. In the next development phase, this will be saved to the database.</p>
+        </div>
+      </div>
+
+      <!-- Item Form Card -->
+      <div class="form-card">
+        <form id="postItemForm" action="#" method="post">
+
+          <!-- Item Name -->
+          <div class="form-group">
+            <label for="itemName" class="form-label">
+              Item Name <span class="required">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="itemName" 
+              name="itemName" 
+              class="form-control" 
+              placeholder="e.g., Scientific Calculator, HDMI Cable" 
+              required
+            >
+          </div>
+
+          <!-- Category -->
+          <div class="form-group">
+            <label for="category" class="form-label">
+              Category <span class="required">*</span>
+            </label>
+            <select id="category" name="category" class="form-control" required>
+              <option value="School Supplies" selected>School Supplies</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Books">Books</option>
+              <option value="Accessories">Accessories</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <!-- Availability -->
+          <div class="form-group">
+            <label for="availability" class="form-label">
+              Availability <span class="required">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="availability" 
+              name="availability" 
+              class="form-control" 
+              placeholder="e.g., Until 4:30 PM, Until Friday, Next 2 hours" 
+              required
+            >
+          </div>
+
+          <!-- Location -->
+          <div class="form-group">
+            <label for="location" class="form-label">
+              Location <span class="required">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="location" 
+              name="location" 
+              class="form-control" 
+              placeholder="e.g., Talamban Campus - Library 2nd Floor" 
+              required
+            >
+          </div>
+
+          <!-- Condition -->
+          <div class="form-group">
+            <label for="condition" class="form-label">
+              Condition <span class="required">*</span>
+            </label>
+            <select id="condition" name="condition" class="form-control" required>
+              <option value="New">New</option>
+              <option value="Like New">Like New</option>
+              <option value="Good" selected>Good</option>
+              <option value="Used">Used</option>
+            </select>
+          </div>
+
+          <!-- Description -->
+          <div class="form-group">
+            <label for="description" class="form-label">Description</label>
+            <textarea 
+              id="description" 
+              name="description" 
+              rows="4" 
+              class="form-control" 
+              placeholder="Provide any important details about the item and how it should be handled..."
+            ></textarea>
+            <p class="form-hint">Mention any accessories included (e.g. batteries, cover, adapters).</p>
+          </div>
+
+          <!-- Preferred Contact -->
+          <div class="form-group">
+            <label for="contact" class="form-label">Preferred Contact</label>
+            <input 
+              type="text" 
+              id="contact" 
+              name="contact" 
+              class="form-control" 
+              placeholder="e.g., student@usc.edu.ph or mobile number"
+            >
+          </div>
+
+          <!-- Optional Image -->
+          <div class="form-group">
+            <label for="itemImage" class="form-label">Optional Image</label>
+            <input 
+              type="file" 
+              id="itemImage" 
+              name="itemImage" 
+              class="form-control" 
+              accept="image/*"
+            >
+            <p class="form-hint">Accepted formats: JPG, PNG (Max 5MB)</p>
+          </div>
+
+          <!-- Form Action Buttons -->
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Post Item</button>
+            <a href="index.html" class="btn btn-secondary">Cancel</a>
+          </div>
+
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p class="footer-group-info">BorrowBox &bull; Integrated Programming Final Project (Group 2)</p>
+      <p>University of San Carlos &bull; Department of Computer Science</p>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

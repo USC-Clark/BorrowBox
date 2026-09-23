@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BorrowBox | Student-to-Student Borrowing Platform</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Navigation Header -->
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="index.html" class="brand-logo">
+        BorrowBox
+        <span class="brand-badge">USC Prototype</span>
+      </a>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="index.html" class="nav-link active">Browse</a></li>
+          <li><a href="post.html" class="nav-link nav-btn">+ Post an Item</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container">
+      <h1 class="hero-title">Borrow what you need. Lend what you have.</h1>
+      <p class="hero-description">
+        BorrowBox makes it easier for students to temporarily share useful items with each other.
+      </p>
+
+      <!-- Search Input -->
+      <div class="search-wrapper">
+        <input 
+          type="text" 
+          id="searchInput" 
+          class="search-input" 
+          placeholder="Search for an item, category, or campus location..."
+          autocomplete="off"
+        >
+      </div>
+
+      <!-- Category Filter Chips -->
+      <div class="category-filters">
+        <button class="filter-btn active" data-category="All">All</button>
+        <button class="filter-btn" data-category="Electronics">Electronics</button>
+        <button class="filter-btn" data-category="School Supplies">School Supplies</button>
+        <button class="filter-btn" data-category="Books">Books</button>
+        <button class="filter-btn" data-category="Accessories">Accessories</button>
+        <button class="filter-btn" data-category="Other">Other</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Section: Available Listings -->
+  <main class="main-content">
+    <div class="container">
+      
+      <div class="section-header">
+        <h2 class="section-title">Available to Borrow</h2>
+        <span class="results-count" id="resultsCount">Showing 6 items</span>
+      </div>
+
+      <!-- Cards Grid -->
+      <div class="cards-grid" id="listingsGrid">
+
+        <!-- Card 1: Scientific Calculator -->
+        <article class="listing-card" data-category="School Supplies">
+          <div class="card-top">
+            <h3 class="card-title">Scientific Calculator</h3>
+            <span class="category-badge">School Supplies</span>
+          </div>
+          <ul class="card-meta-list">
+            <li class="card-meta-item">
+              <span class="card-meta-label">Available until:</span>
+              <span class="card-meta-value">4:30 PM</span>
+            </li>
+            <li class="card-meta-item">
+              <span class="card-meta-label">Location:</span>
+              <span class="card-meta-value">Talamban Campus</span>
+            </li>
+            <li class="card-meta-item">
+              <span class="card-meta-label">Condition:</span>
+              <span class="card-meta-value">Good</span>
+            </li>
+          </ul>
+          <div class="card-footer">
+            <a href="details.html" class="btn btn-primary">View Details</a>
+          </div>
+        </article>
+
+        <!-- Card 2: HDMI Cable -->
+        <article class="listing-card" data-category="Electronics">
+          <div class="card-top">
+            <h3 class="card-title">HDMI Cable</h3>
+            <span class="category-badge">Electronics</span>
+          </div>
+          <ul class="card-meta-list">
+            <li class="card-meta-item">
+              <span class="card-meta-label">Available until:</span>
+              <span class="card-meta-value">6:00 PM</span>
+            </li>
+            <li class="card-meta-item">
+              <span class="card-meta-label">Location:</span>
+              <span class="card-meta-value">Library</span>
+            </li>
+            <li class="card-meta-item">
+              <span class="card-meta-label">Condition:</span>
+              <span class="card-meta-value">Good</span>
+            </li>
+          </ul>
+          <div class="card-footer">
+            <a href="details.html" class="btn btn-secondary">View Details</a>
+          </div>
+        </article>
+
+        <!-- Card 3: Black Umbrella -->
+        <article class="listing-card" data-category="Other">
+          <div class="card-top">
+            <h3 class="card-title">Black Umbrella</h3>
+            <span class="category-badge">Other</span>
+          </div>
+          <ul class="card-meta-list">
+            <li class="card-meta-item">
+              <span class="card-meta-label">Available until:</span>
+              <span class="card-meta-value">8:00 PM</span>
+            </li>
+            <li class="card-meta-item">
+              <span class="card-meta-label">Location:</span>
+              <span class="card-meta-value">Main Gate</span>
+            </li>
+            <li class="card-meta-item">
+              <span class="card-meta-label">Condition:</span>
+              <span class="card-meta-value">Good</span>
+            </li>
+          </ul>
+          <div class="card-footer">
+            <a href="details.html" class="btn btn-secondary">View Details</a>
+          </div>
+        </article>
+
+        <!-- Card 4: USB Flash Drive -->
+        <article class="listing-card" data-category="Electronics">
+          <div class="card-top">
+            <h3 class="card-title">USB Flash Drive</h3>
+            <span class="category-badge">Electronics</span>
+          </div>
+          <ul class="card-meta-list">
+            <li class="card-meta-item">
+              <span class="card-meta-label">Available until:</span>
+              <span class="card-meta-value">5:00 PM</span>
+            </li>
+            <li class="card-meta-item">
+              <span class="card-meta-label">Location:</span>
+              <span class="card-meta-value">Engineering Building</span>
+            </li>
+            <li class="card-meta-item">
+              <span class="card-meta-label">Condition:</span>
+              <span class="card-meta-value">Good</span>
+            </li>
+          </ul>
+          <div class="card-footer">
+            <a href="details.html" class="btn btn-secondary">View Details</a>
+          </div>
+        </article>
+
+        <!-- Card 5: Java Programming Book -->
+        <article class="listing-card" data-category="Books">
+          <div class="card-top">
+            <h3 class="card-title">Java Programming Book</h3>
+            <span class="category-badge">Books</span>
+          </div>
+          <ul class="card-meta-list">
+            <li class="card-meta-item">
+              <span class="card-meta-label">Available until:</span>
+              <span class="card-meta-value">Friday</span>
+            </li>
+            <li class="card-meta-item">
+              <span class="card-meta-label">Location:</span>
+              <span class="card-meta-value">Library</span>
+            </li>
+            <li class="card-meta-item">
+              <span class="card-meta-label">Condition:</span>
+              <span class="card-meta-value">Used</span>
+            </li>
+          </ul>
+          <div class="card-footer">
+            <a href="details.html" class="btn btn-secondary">View Details</a>
+          </div>
+        </article>
+
+        <!-- Card 6: Laptop Sleeve Case (Accessories) -->
+        <article class="listing-card" data-category="Accessories">
+          <div class="card-top">
+            <h3 class="card-title">13" Laptop Sleeve Case</h3>
+            <span class="category-badge">Accessories</span>
+          </div>
+          <ul class="card-meta-list">
+            <li class="card-meta-item">
+              <span class="card-meta-label">Available until:</span>
+              <span class="card-meta-value">7:00 PM</span>
+            </li>
+            <li class="card-meta-item">
+              <span class="card-meta-label">Location:</span>
+              <span class="card-meta-value">SAFAD Building</span>
+            </li>
+            <li class="card-meta-item">
+              <span class="card-meta-label">Condition:</span>
+              <span class="card-meta-value">Good</span>
+            </li>
+          </ul>
+          <div class="card-footer">
+            <a href="details.html" class="btn btn-secondary">View Details</a>
+          </div>
+        </article>
+
+        <!-- Empty state placeholder -->
+        <div id="noResults" class="no-results" style="display: none;">
+          <p><strong>No listings found</strong></p>
+          <p>Try searching for a different keyword or select another category.</p>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p class="footer-group-info">BorrowBox &bull; Integrated Programming Final Project (Group 2)</p>
+      <p>University of San Carlos &bull; Department of Computer Science</p>
+    </div>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>
