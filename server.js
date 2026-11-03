@@ -416,6 +416,17 @@ async function initializeDatabase() {
             admin.id
         ]
     );
+    await db.query(
+        `DELETE borrow_requests
+         FROM borrow_requests
+         INNER JOIN item ON item.id = borrow_requests.item_id
+         WHERE item.owner_id = ?`,
+        [admin.id]
+    );
+    const [adminItemsDeleted] = await db.query(
+        "DELETE FROM item WHERE owner_id = ?",
+        [admin.id]
+    );
     const [[requestCount]] = await db.query("SELECT COUNT(*) AS total FROM borrow_requests");
     if (Number(requestCount.total) === 0) {
         const [demoItems] = await db.query(
@@ -458,7 +469,10 @@ async function initializeDatabase() {
         }
     }
 
-    console.log(`Database ${DB_NAME} is ready; tables and starter records are initialized.`);
+    console.log(
+        `Database ${DB_NAME} is ready; tables and starter records are initialized. ` +
+        `Removed ${adminItemsDeleted.affectedRows} listing(s) owned by the administrator.`
+    );
 }
 
 const pageFiles = [

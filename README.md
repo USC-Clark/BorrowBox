@@ -19,6 +19,7 @@ BorrowBox helps students share useful items for temporary borrowing. Students ca
 - Listing owners can accept or reject requests for their items.
 - Borrowers can report a return; the listing owner confirms receipt before the item is marked available again.
 - The read-only administrator dashboard monitors pending requests, active loans, returns awaiting confirmation, and fully returned items with borrower, owner, item, schedule, and timestamps.
+- Administrators cannot post listings; any legacy administrator-owned listings and their requests are removed during startup.
 - Borrowers can connect Google Calendar; when an owner accepts a request, BorrowBox adds the scheduled borrowing period to the borrower's calendar.
 - MySQL database and tables created automatically when the server starts.
 - Startup ensures the database contains at least five listings, adding starter entries if needed.
