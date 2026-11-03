@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | BorrowBox</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="dashboard.html" class="brand-logo">BorrowBox <span class="brand-badge">Administrator</span></a>
+      <nav><ul class="nav-links"></ul></nav>
+    </div>
+  </header>
+  <main class="main-content">
+    <div class="container admin-container" id="adminContent">
+      <div class="page-header-block">
+        <h1 class="page-title">Admin dashboard</h1>
+        <p class="page-subtitle">Monitor borrower accounts, item listings, and borrowing requests.</p>
+      </div>
+      <div id="adminMessage" class="alert" style="display:none" role="status"></div>
+      <section class="stats-grid" aria-label="Platform totals">
+        <article class="stat-card"><span class="stat-label">Borrowers</span><strong id="borrowerCount">—</strong></article>
+        <article class="stat-card"><span class="stat-label">Items</span><strong id="itemCount">—</strong></article>
+        <article class="stat-card"><span class="stat-label">Borrow requests</span><strong id="requestCount">—</strong></article>
+        <article class="stat-card"><span class="stat-label">Pending owner decisions</span><strong id="pendingCount">—</strong></article>
+        <article class="stat-card"><span class="stat-label">Actively borrowing</span><strong id="activeCount">—</strong></article>
+        <article class="stat-card"><span class="stat-label">Awaiting return confirmation</span><strong id="returnConfirmationCount">—</strong></article>
+        <article class="stat-card"><span class="stat-label">Returned by both sides</span><strong id="returnedCount">—</strong></article>
+      </section>
+      <section class="admin-section">
+        <h2 class="section-title">Borrowing activity</h2>
+        <p class="page-subtitle">Read-only record of who borrowed each item, from whom, the scheduled period, and return confirmations.</p>
+        <div class="table-wrap"><table><thead><tr><th>Request date</th><th>Item</th><th>Borrower</th><th>Owner</th><th>Borrowing window</th><th>Status / return confirmations</th></tr></thead><tbody id="requestsBody"></tbody></table></div>
+      </section>
+      <section class="admin-section">
+        <h2 class="section-title">Items</h2>
+        <div class="table-wrap"><table><thead><tr><th>Item</th><th>Lender</th><th>Category</th><th>Location</th><th>Borrowing window</th><th>Status</th></tr></thead><tbody id="itemsBody"></tbody></table></div>
+      </section>
+      <section class="admin-section">
+        <h2 class="section-title">Accounts</h2>
+        <div class="table-wrap accounts-scroll"><table><thead><tr><th>Name</th><th>Email</th><th>Google Calendar</th><th>Requests</th></tr></thead><tbody id="borrowersBody"></tbody></table></div>
+      </section>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="container footer-content"><p>BorrowBox &bull; University of San Carlos</p></div></footer>
+  <script src="js/script.js"></script>
+</body>
+</html>

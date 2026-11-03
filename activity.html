@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Requests &amp; Returns | BorrowBox</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="dashboard.html" class="brand-logo">BorrowBox <span class="brand-badge">Student Lending</span></a>
+      <nav><ul class="nav-links"></ul></nav>
+    </div>
+  </header>
+  <main class="main-content">
+    <div class="container admin-container" id="activityContent">
+      <div class="page-header-block">
+        <h1 class="page-title">Requests &amp; Returns</h1>
+        <p class="page-subtitle">Manage requests for items you posted, confirm returned items, and track your own borrowings.</p>
+      </div>
+      <div id="activityMessage" class="alert" style="display:none" role="status"></div>
+      <button type="button" class="btn btn-secondary btn-small" id="activityRetry" hidden>Retry loading activity</button>
+      <section class="admin-section">
+        <h2 class="section-title" id="incomingRequests">Requests for my listings</h2>
+        <p class="page-subtitle">Accept or reject pending requests. When a borrower reports a return, confirm it here to mark the item available again.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Borrower</th><th>Borrowing window</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="incomingRequestsBody"><tr><td colspan="5" class="table-empty">Loading requests for your listings...</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+      <section class="admin-section">
+        <h2 class="section-title">Items I borrowed</h2>
+        <p class="page-subtitle">Mark an item returned after giving it back to its owner.</p>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Item</th><th>Owner</th><th>Borrowing window</th><th>Status / return confirmation</th><th>Action</th></tr></thead>
+            <tbody id="myBorrowingsBody"><tr><td colspan="5" class="table-empty">Loading your borrowing activity...</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="container footer-content"><p>BorrowBox &bull; University of San Carlos</p></div></footer>
+  <script src="js/script.js"></script>
+</body>
+</html>

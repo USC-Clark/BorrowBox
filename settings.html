@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Account Settings | BorrowBox</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="dashboard.html" class="brand-logo">BorrowBox <span class="brand-badge">Student Lending</span></a>
+      <nav><ul class="nav-links"></ul></nav>
+    </div>
+  </header>
+  <main class="main-content">
+    <div class="container form-page-container">
+      <div class="page-header-block">
+        <h1 class="page-title">Account settings</h1>
+        <p class="page-subtitle">Manage your password and connected services.</p>
+      </div>
+      <div id="formMessage" class="alert" style="display:none" role="status"></div>
+      <div class="form-card">
+        <form id="passwordForm">
+          <div class="form-group">
+            <label for="currentPassword" class="form-label">Current password</label>
+            <input id="currentPassword" name="currentPassword" type="password" class="form-control" autocomplete="current-password" required>
+          </div>
+          <div class="form-group">
+            <label for="newPassword" class="form-label">New password</label>
+            <input id="newPassword" name="newPassword" type="password" class="form-control" minlength="8" autocomplete="new-password" required>
+          </div>
+          <div class="form-group">
+            <label for="confirmPassword" class="form-label">Confirm new password</label>
+            <input id="confirmPassword" name="confirmPassword" type="password" class="form-control" minlength="8" autocomplete="new-password" required>
+          </div>
+          <div class="form-actions"><button type="submit" class="btn btn-primary">Change Password</button></div>
+        </form>
+      </div>
+      <section class="form-card calendar-settings">
+        <h2 class="section-title">Google Calendar</h2>
+        <p class="page-subtitle">Connect the calendar where approved borrowing periods should appear.</p>
+        <div id="calendarStatus" class="calendar-note" role="status">Checking Google Calendar connection...</div>
+        <div class="form-actions">
+          <a id="connectCalendarButton" href="/api/calendar/connect" class="btn btn-primary" hidden>Connect Google Calendar</a>
+          <button id="disconnectCalendarButton" type="button" class="btn btn-secondary" hidden>Disconnect Google Calendar</button>
+        </div>
+      </section>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="container footer-content"><p>BorrowBox &bull; University of San Carlos</p></div></footer>
+  <script src="js/script.js"></script>
+</body>
+</html>

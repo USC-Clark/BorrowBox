@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Log In | BorrowBox</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container navbar">
+      <a href="dashboard.html" class="brand-logo">BorrowBox <span class="brand-badge">Student Lending</span></a>
+      <nav><ul class="nav-links"></ul></nav>
+    </div>
+  </header>
+  <main class="main-content">
+    <div class="container form-page-container">
+      <div class="page-header-block">
+        <h1 class="page-title">Welcome back</h1>
+        <p class="page-subtitle">Log in to browse listings and manage your borrowing activity.</p>
+      </div>
+      <div id="formMessage" class="alert" style="display:none" role="status"></div>
+      <div class="form-card">
+        <form id="loginForm">
+          <div class="form-group">
+            <label for="email" class="form-label">Email</label>
+            <input id="email" name="email" type="email" class="form-control" autocomplete="username" required>
+          </div>
+          <div class="form-group">
+            <label for="password" class="form-label">Password</label>
+            <input id="password" name="password" type="password" class="form-control" autocomplete="current-password" required>
+          </div>
+          <div class="form-actions"><button type="submit" class="btn btn-primary">Log In</button></div>
+        </form>
+        <p class="auth-switch">New to BorrowBox? <a href="register.html">Create an account</a></p>
+      </div>
+    </div>
+  </main>
+  <footer class="site-footer"><div class="container footer-content"><p>BorrowBox &bull; University of San Carlos</p></div></footer>
+  <script src="js/script.js"></script>
+</body>
+</html>
