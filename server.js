@@ -9,6 +9,7 @@ const crypto = require("crypto");
 const path = require("path");
 const fs = require("fs");
 
+const rateLimit = require("express-rate-limit");
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 const DB_HOST = process.env.DB_HOST || "localhost";
@@ -601,7 +602,10 @@ app.delete("/api/calendar/connection", requireAuth, async (req, res) => {
     res.json({ message: "Google Calendar disconnected." });
 });
 
-app.post("/api/auth/register", async (req, res) => {
+const loginLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 10, message: { message: "Too many login attempts. Try again later." } });
+const registerLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 5, message: { message: "Too many registration attempts. Try again later." } });
+
+app.post("/api/auth/register", registerLimiter, async (req, res) => {
     const name = typeof req.body.name === "string" ? req.body.name.trim() : "";
     const email = typeof req.body.email === "string" ? req.body.email.trim().toLowerCase() : "";
     const password = req.body.password;
@@ -630,7 +634,7 @@ app.post("/api/auth/register", async (req, res) => {
     }
 });
 
-app.post("/api/auth/login", async (req, res) => {
+app.post("/api/auth/login", loginLimiter, async (req, res) => {
     const email = typeof req.body.email === "string" ? req.body.email.trim().toLowerCase() : "";
     const password = typeof req.body.password === "string" ? req.body.password : "";
     const [users] = await db.query(
