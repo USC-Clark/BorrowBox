@@ -84,7 +84,7 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 
 const uploadDir = path.join(__dirname, "uploads");
 fs.mkdirSync(uploadDir, { recursive: true });
-app.use("/uploads", express.static(uploadDir));
+app.use("/uploads", requireAuth, express.static(uploadDir));
 
 const storage = multer.diskStorage({
     destination: (_req, _file, callback) => callback(null, uploadDir),
