@@ -494,6 +494,15 @@ app.get(pageFiles.map((file) => `/${file}`), (req, res) => {
     res.sendFile(path.join(__dirname, path.basename(req.path)));
 });
 
+app.get("/api/health", async (_req, res) => {
+    try {
+        await db.query("SELECT 1");
+        res.json({ status: "ok" });
+    } catch {
+        res.status(503).json({ status: "unhealthy" });
+    }
+});
+
 app.get("/api/auth/me", (req, res) => {
     res.json({ user: req.session.user || null });
 });
