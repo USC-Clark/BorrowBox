@@ -337,17 +337,6 @@ async function initializeDatabase() {
     await ensureColumn("borrow_requests", "owner_returned_at", "DATETIME NULL");
     await ensureColumn("users", "google_email", "VARCHAR(190) NULL");
     await ensureColumn("users", "google_refresh_token", "TEXT NULL");
-    await db.query("UPDATE borrow_requests SET status = 'Borrowing' WHERE status = 'Approved'");
-    await db.query(
-        `UPDATE item
-         SET status = 'Borrowed'
-         WHERE status = 'Available'
-           AND EXISTS (
-               SELECT 1 FROM borrow_requests
-               WHERE borrow_requests.item_id = item.id
-                 AND borrow_requests.status = 'Borrowing'
-           )`
-    );
 
     const adminHash = await bcrypt.hash(ADMIN_PASSWORD, 12);
     await db.query(
@@ -384,6 +373,19 @@ async function initializeDatabase() {
         ["Java Programming Book", "Books", "Talamban Campus - Library", "Used", "Introductory Java programming textbook, with some highlighting."]
     ];
     const missingStarterItems = Math.max(0, 5 - Number(itemCount.total));
+    if (missingStarterItems > 0) {
+        await db.query("UPDATE borrow_requests SET status = 'Borrowing' WHERE status = 'Approved'");
+        await db.query(
+            `UPDATE item
+             SET status = 'Borrowed'
+             WHERE status = 'Available'
+               AND EXISTS (
+                   SELECT 1 FROM borrow_requests
+                   WHERE borrow_requests.item_id = item.id
+                     AND borrow_requests.status = 'Borrowing'
+               )`
+        );
+    }
     for (const [index, sample] of starterItems.slice(0, missingStarterItems).entries()) {
         await db.query(
             `INSERT INTO item
