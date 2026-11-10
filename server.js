@@ -1024,7 +1024,15 @@ app.use((err, _req, res, _next) => {
 
 initializeDatabase()
     .then(() => {
-        app.listen(PORT, () => console.log(`BorrowBox server running at http://localhost:${PORT}`));
+        const server = app.listen(PORT, () => console.log(`BorrowBox server running at http://localhost:${PORT}`));
+        const shutdown = () => {
+            console.log("Shutting down...");
+            server.close(() => {
+                db.end().then(() => process.exit(0)).catch(() => process.exit(1));
+            });
+        };
+        process.on("SIGTERM", shutdown);
+        process.on("SIGINT", shutdown);
     })
     .catch((error) => {
         console.error(
