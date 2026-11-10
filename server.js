@@ -16,12 +16,12 @@ const DB_PORT = Number(process.env.DB_PORT) || 3306;
 const DB_USER = process.env.DB_USER || "root";
 const DB_PASSWORD = process.env.DB_PASSWORD || "";
 const DB_NAME = process.env.DB_NAME || "borrowbox_db";
-const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || "admin@borrowbox.local").trim().toLowerCase();
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Admin123!";
-const DEMO_LENDER_EMAIL = (process.env.DEMO_LENDER_EMAIL || "sample.lender@borrowbox.local").trim().toLowerCase();
-const DEMO_LENDER_PASSWORD = process.env.DEMO_LENDER_PASSWORD || "BorrowBoxDemo123!";
-const DEMO_BORROWER_EMAIL = (process.env.DEMO_BORROWER_EMAIL || "sample.borrower@borrowbox.local").trim().toLowerCase();
-const DEMO_BORROWER_PASSWORD = process.env.DEMO_BORROWER_PASSWORD || "BorrowBoxDemo123!";
+const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || "").trim().toLowerCase();
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const DEMO_LENDER_EMAIL = (process.env.DEMO_LENDER_EMAIL || "").trim().toLowerCase();
+const DEMO_LENDER_PASSWORD = process.env.DEMO_LENDER_PASSWORD;
+const DEMO_BORROWER_EMAIL = (process.env.DEMO_BORROWER_EMAIL || "").trim().toLowerCase();
+const DEMO_BORROWER_PASSWORD = process.env.DEMO_BORROWER_PASSWORD;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI || `http://localhost:${PORT}/api/calendar/callback`;
@@ -31,6 +31,9 @@ const TOKEN_ENCRYPTION_KEY = process.env.TOKEN_ENCRYPTION_KEY;
 
 if (!/^[a-zA-Z0-9_]+$/.test(DB_NAME)) {
     throw new Error("DB_NAME may contain only letters, numbers, and underscores.");
+}
+if (!ADMIN_PASSWORD || !DEMO_LENDER_PASSWORD || !DEMO_BORROWER_PASSWORD) {
+    throw new Error("ADMIN_PASSWORD, DEMO_LENDER_PASSWORD, and DEMO_BORROWER_PASSWORD must be set in .env");
 }
 if (!isValidEmail(ADMIN_EMAIL) || ADMIN_PASSWORD.length < 8 || ADMIN_PASSWORD.length > 128) {
     throw new Error("ADMIN_EMAIL must be valid and ADMIN_PASSWORD must be 8-128 characters.");
