@@ -6,6 +6,7 @@ const multer = require("multer");
 const session = require("express-session");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
+const morgan = require("morgan");
 const path = require("path");
 const fs = require("fs");
 
@@ -56,6 +57,11 @@ try {
 } catch {
     throw new Error("GOOGLE_TIME_ZONE must be a valid IANA time zone.");
 }
+
+const logsDir = path.join(__dirname, "logs");
+fs.mkdirSync(logsDir, { recursive: true });
+const accessLogStream = fs.createWriteStream(path.join(logsDir, "access.log"), { flags: "a" });
+app.use(morgan("combined", { stream: accessLogStream }));
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

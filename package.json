@@ -16,6 +16,7 @@
     "express": "^5.3.0",
     "express-rate-limit": "^8.7.4",
     "express-session": "^1.19.0",
+    "morgan": "^1.12.1",
     "multer": "^2.5.0",
     "mysql2": "^3.24.6"
   }
