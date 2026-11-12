@@ -6,9 +6,11 @@ const multer = require("multer");
 const session = require("express-session");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
+const morgan = require("morgan");
 const path = require("path");
 const fs = require("fs");
 
+const rateLimit = require("express-rate-limit");
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 const DB_HOST = process.env.DB_HOST || "localhost";
@@ -16,12 +18,12 @@ const DB_PORT = Number(process.env.DB_PORT) || 3306;
 const DB_USER = process.env.DB_USER || "root";
 const DB_PASSWORD = process.env.DB_PASSWORD || "";
 const DB_NAME = process.env.DB_NAME || "borrowbox_db";
-const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || "admin@borrowbox.local").trim().toLowerCase();
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Admin123!";
-const DEMO_LENDER_EMAIL = (process.env.DEMO_LENDER_EMAIL || "sample.lender@borrowbox.local").trim().toLowerCase();
-const DEMO_LENDER_PASSWORD = process.env.DEMO_LENDER_PASSWORD || "BorrowBoxDemo123!";
-const DEMO_BORROWER_EMAIL = (process.env.DEMO_BORROWER_EMAIL || "sample.borrower@borrowbox.local").trim().toLowerCase();
-const DEMO_BORROWER_PASSWORD = process.env.DEMO_BORROWER_PASSWORD || "BorrowBoxDemo123!";
+const ADMIN_EMAIL = (process.env.ADMIN_EMAIL || "").trim().toLowerCase();
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const DEMO_LENDER_EMAIL = (process.env.DEMO_LENDER_EMAIL || "").trim().toLowerCase();
+const DEMO_LENDER_PASSWORD = process.env.DEMO_LENDER_PASSWORD;
+const DEMO_BORROWER_EMAIL = (process.env.DEMO_BORROWER_EMAIL || "").trim().toLowerCase();
+const DEMO_BORROWER_PASSWORD = process.env.DEMO_BORROWER_PASSWORD;
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const GOOGLE_REDIRECT_URI = process.env.GOOGLE_REDIRECT_URI || `http://localhost:${PORT}/api/calendar/callback`;
@@ -31,6 +33,9 @@ const TOKEN_ENCRYPTION_KEY = process.env.TOKEN_ENCRYPTION_KEY;
 
 if (!/^[a-zA-Z0-9_]+$/.test(DB_NAME)) {
     throw new Error("DB_NAME may contain only letters, numbers, and underscores.");
+}
+if (!ADMIN_PASSWORD || !DEMO_LENDER_PASSWORD || !DEMO_BORROWER_PASSWORD) {
+    throw new Error("ADMIN_PASSWORD, DEMO_LENDER_PASSWORD, and DEMO_BORROWER_PASSWORD must be set in .env");
 }
 if (!isValidEmail(ADMIN_EMAIL) || ADMIN_PASSWORD.length < 8 || ADMIN_PASSWORD.length > 128) {
     throw new Error("ADMIN_EMAIL must be valid and ADMIN_PASSWORD must be 8-128 characters.");
@@ -53,6 +58,11 @@ try {
     throw new Error("GOOGLE_TIME_ZONE must be a valid IANA time zone.");
 }
 
+const logsDir = path.join(__dirname, "logs");
+fs.mkdirSync(logsDir, { recursive: true });
+const accessLogStream = fs.createWriteStream(path.join(logsDir, "access.log"), { flags: "a" });
+app.use(morgan("combined", { stream: accessLogStream }));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(session({
@@ -74,7 +84,7 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 
 const uploadDir = path.join(__dirname, "uploads");
 fs.mkdirSync(uploadDir, { recursive: true });
-app.use("/uploads", express.static(uploadDir));
+app.use("/uploads", requireAuth, express.static(uploadDir));
 
 const storage = multer.diskStorage({
     destination: (_req, _file, callback) => callback(null, uploadDir),
@@ -327,17 +337,6 @@ async function initializeDatabase() {
     await ensureColumn("borrow_requests", "owner_returned_at", "DATETIME NULL");
     await ensureColumn("users", "google_email", "VARCHAR(190) NULL");
     await ensureColumn("users", "google_refresh_token", "TEXT NULL");
-    await db.query("UPDATE borrow_requests SET status = 'Borrowing' WHERE status = 'Approved'");
-    await db.query(
-        `UPDATE item
-         SET status = 'Borrowed'
-         WHERE status = 'Available'
-           AND EXISTS (
-               SELECT 1 FROM borrow_requests
-               WHERE borrow_requests.item_id = item.id
-                 AND borrow_requests.status = 'Borrowing'
-           )`
-    );
 
     const adminHash = await bcrypt.hash(ADMIN_PASSWORD, 12);
     await db.query(
@@ -374,6 +373,19 @@ async function initializeDatabase() {
         ["Java Programming Book", "Books", "Talamban Campus - Library", "Used", "Introductory Java programming textbook, with some highlighting."]
     ];
     const missingStarterItems = Math.max(0, 5 - Number(itemCount.total));
+    if (missingStarterItems > 0) {
+        await db.query("UPDATE borrow_requests SET status = 'Borrowing' WHERE status = 'Approved'");
+        await db.query(
+            `UPDATE item
+             SET status = 'Borrowed'
+             WHERE status = 'Available'
+               AND EXISTS (
+                   SELECT 1 FROM borrow_requests
+                   WHERE borrow_requests.item_id = item.id
+                     AND borrow_requests.status = 'Borrowing'
+               )`
+        );
+    }
     for (const [index, sample] of starterItems.slice(0, missingStarterItems).entries()) {
         await db.query(
             `INSERT INTO item
@@ -490,6 +502,15 @@ app.get(pageFiles.map((file) => `/${file}`), (req, res) => {
     res.sendFile(path.join(__dirname, path.basename(req.path)));
 });
 
+app.get("/api/health", async (_req, res) => {
+    try {
+        await db.query("SELECT 1");
+        res.json({ status: "ok" });
+    } catch {
+        res.status(503).json({ status: "unhealthy" });
+    }
+});
+
 app.get("/api/auth/me", (req, res) => {
     res.json({ user: req.session.user || null });
 });
@@ -598,7 +619,10 @@ app.delete("/api/calendar/connection", requireAuth, async (req, res) => {
     res.json({ message: "Google Calendar disconnected." });
 });
 
-app.post("/api/auth/register", async (req, res) => {
+const loginLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 10, message: { message: "Too many login attempts. Try again later." } });
+const registerLimiter = rateLimit({ windowMs: 15 * 60 * 1000, max: 5, message: { message: "Too many registration attempts. Try again later." } });
+
+app.post("/api/auth/register", registerLimiter, async (req, res) => {
     const name = typeof req.body.name === "string" ? req.body.name.trim() : "";
     const email = typeof req.body.email === "string" ? req.body.email.trim().toLowerCase() : "";
     const password = req.body.password;
@@ -627,7 +651,7 @@ app.post("/api/auth/register", async (req, res) => {
     }
 });
 
-app.post("/api/auth/login", async (req, res) => {
+app.post("/api/auth/login", loginLimiter, async (req, res) => {
     const email = typeof req.body.email === "string" ? req.body.email.trim().toLowerCase() : "";
     const password = typeof req.body.password === "string" ? req.body.password : "";
     const [users] = await db.query(
@@ -1008,7 +1032,15 @@ app.use((err, _req, res, _next) => {
 
 initializeDatabase()
     .then(() => {
-        app.listen(PORT, () => console.log(`BorrowBox server running at http://localhost:${PORT}`));
+        const server = app.listen(PORT, () => console.log(`BorrowBox server running at http://localhost:${PORT}`));
+        const shutdown = () => {
+            console.log("Shutting down...");
+            server.close(() => {
+                db.end().then(() => process.exit(0)).catch(() => process.exit(1));
+            });
+        };
+        process.on("SIGTERM", shutdown);
+        process.on("SIGINT", shutdown);
     })
     .catch((error) => {
         console.error(
